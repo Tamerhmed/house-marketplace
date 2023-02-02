@@ -30,7 +30,7 @@ const SignIn = () => {
     try {
       const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, email,password);
-      console.log(userCredential);
+  
       if(userCredential.user) {
         navigate('/profile');
       }
