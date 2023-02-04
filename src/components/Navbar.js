@@ -49,7 +49,7 @@ const pathMatchRouter = (router)=> {
                            'navbarListItemNameActive'
                          : 'NavbarListItemName'
                          }>
-                              Offer
+                              Offers
                          </p>
                     </li>
                     <li 

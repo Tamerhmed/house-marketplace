@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {toast} from 'react-toastify';
 import {Link, useNavigate} from 'react-router-dom';
+import OAuth from '../components/OAuth';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -114,7 +115,7 @@ console.log(user)
             </button>
           </div>
         </form>
-        {/* { Google OAuth} */}
+        <OAuth />
         <Link to='/sign-in'
         className='registerLink'
         >
