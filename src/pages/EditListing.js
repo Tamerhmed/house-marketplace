@@ -6,18 +6,27 @@ import {
         uploadBytesResumable,
         getDownloadURL
     } from "firebase/storage";
-import { serverTimestamp, addDoc, collection } from 'firebase/firestore';
+import { 
+    serverTimestamp,
+     addDoc,
+     doc,
+    collection,
+    getDoc,
+    updateDoc
+    
+    } from 'firebase/firestore';
 import {db} from '../firebase.config';
 import {v4 as uuidv4} from 'uuid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
 import { async } from '@firebase/util';
 
 
-const CreateListing = () => {
+const EditListing = () => {
     const [geolocationEnabled, setGeolocationEnabled] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [listing, setListing] = useState(null);
     const [formData, setFormData] = useState({
             type: "rent",
             name: "",
@@ -52,7 +61,35 @@ const CreateListing = () => {
 
     const auth = getAuth();
     const navigate = useNavigate();
+    const params = useParams();
     const isMounted = useRef(true);
+
+    //redirect if listing is not user's
+    useEffect(()=> {
+        if(listing && listing.useRef !== auth.currentUser.uid) {
+            toast.error('You can not edit that listing');
+            navigate('/');
+        }
+    }, []);
+
+    useEffect(()=> {
+        setLoading(true);
+        const fetchListing = async()=> {
+            const docRef = doc(db, 'listings', params.listingId);
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()) {
+                console.log(docSnap.data());
+                setListing(docSnap.data());
+                setFormData({...docSnap.data(), address:docSnap.data().location})
+                setLoading(false);
+            } else {
+                navigate('/');
+                toast.error('Listing is not exist');
+            }
+        }
+
+        fetchListing();
+    },[params.listingId, navigate]);
 
     useEffect(()=> {
         if(isMounted) {
@@ -173,8 +210,11 @@ const CreateListing = () => {
         
         !formDataCopy.offer && delete formDataCopy.discountedPrice;
         
-        const docRef = await addDoc(collection(db, 'listings'), formDataCopy);
-        
+        //update listing
+        const docRef = doc(db, 'listings', params.listingId);
+        await updateDoc(docRef, formDataCopy)
+
+
         setLoading(false);
         toast.success('Listing saved');
         navigate(`/category/${formDataCopy.type}/${docRef.id}`)
@@ -433,4 +473,4 @@ const CreateListing = () => {
   )
 }
 
-export default CreateListing
+export default EditListing;

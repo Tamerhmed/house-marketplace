@@ -3,6 +3,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../firebase.config";
+import SwiperCore,{ Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 import Spinner from "../components/Spinner";
 import shareIcon from '../assets/svg/shareIcon.svg';
 import { async } from "@firebase/util";
@@ -44,15 +50,36 @@ useEffect(()=> {
     fetchListing();
 }, [navigate, params.listingId]);
 
-console.log(listing)
 
 if(loading) {
     return <Spinner />
 }
 
+
   return (
     <main>
-        {/* SLIDER */}
+        <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+            slidesPerView={1}
+             pagination={{ clickable: true }}
+            
+        >
+        {listing.imgUrls.map((image, index)=> {
+            return <SwiperSlide key={index}>
+                <div className="swiperSlideDiv"
+                style={{
+                    // background:`url(${listing.imgUrls[index]})
+                    //  center no-repeat`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat'
+                    }}
+                >
+                <img src={image} alt="house" className="swiperSlideDiv" />
+                </div>
+            </SwiperSlide>
+        })}
+        </Swiper>
     <div className="shareIconDiv"
     onClick={()=> handleShareLink()}
     >
@@ -100,8 +127,9 @@ if(loading) {
                 </li>
             </ul>
             <p className="listingLocationTitle">
-                location
+                location: {listing.location}
             </p>
+            
             {
                 auth.currentUser?.uid !== listing.userRef && (
                     // ?listingName=${listing.name}

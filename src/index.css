@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 * {
   box-sizing: border-box;
 }
@@ -8,7 +10,7 @@ html::-webkit-scrollbar {
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Lato','Roboto', sans-serif;
   background-color: #f2f4f8;
   margin: 0;
   box-sizing: border-box;
@@ -140,16 +142,18 @@ button {
 }
 
 .pageHeader {
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 800;
+  padding-top: 7rem;
 }
 
 .navbar {
   position: fixed;
   left: 0;
+  top:0;
   bottom: 0;
   right: 0;
-  height: 85px;
+  height: 100px;
   background-color: #ffffff;
   z-index: 1000;
   display: flex;
@@ -159,7 +163,7 @@ button {
 
 .navbarNav {
   width: 100%;
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   overflow-y: hidden;
 }
 
@@ -309,6 +313,7 @@ button {
 @media (max-height: 536px) {
   .explore {
     margin-bottom: 10rem;
+    /* padding-top: 10rem; */
   }
 }
 
@@ -378,6 +383,7 @@ button {
 .exploreCategories {
   display: flex;
   justify-content: space-between;
+  padding-bottom:4rem;
 }
 .exploreCategories a {
   width: 48%;
@@ -711,7 +717,7 @@ button {
   font-weight: 600;
 }
 
-.lisitingsList {
+.listingsList {
   padding: 0;
 }
 
